@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  TableViewController.h
 //  WebPDemo
 //
 //  Created by Kaibo Lu on 2017/12/31.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface TableViewController : UITableViewController
 
 
 @end
