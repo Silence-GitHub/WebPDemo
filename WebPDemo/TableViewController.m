@@ -43,7 +43,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TableViewCell.description forIndexPath:indexPath];
     NSString *urlStr;
-    switch (indexPath.row % 3) {
+    switch (indexPath.row % 4) {
         case 0:
             urlStr = @"https://res.cloudinary.com/demo/image/upload/fl_awebp/bored_animation.webp";
             break;
@@ -52,13 +52,17 @@
             urlStr = @"https://isparta.github.io/compare-webp/image/gif_webp/webp/1.webp";
             break;
             
-        default:
+        case 2:
             urlStr = @"https://isparta.github.io/compare-webp/image/gif_webp/webp/2.webp";
+            break;
+            
+        default:
+            urlStr = @"http://www.etherdream.com/WebP/Test.webp";
             break;
     }
     NSURL *url = [NSURL URLWithString:urlStr];
     [cell.imageView sd_setImageWithURL:url completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-        NSLog(@"Completion");
+        NSLog(@"Success: %@", image);
     }];
     return cell;
 }
