@@ -8,7 +8,10 @@
 
 #import "TableViewController.h"
 #import "TableViewCell.h"
+#import "FirstFrameWebPCoder.h"
 
+#import <SDWebImageCodersManager.h>
+#import <SDWebImageImageIOCoder.h>
 #import <UIImageView+WebCache.h>
 
 @interface TableViewController ()
@@ -19,6 +22,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [SDWebImageCodersManager sharedInstance].coders = @[[SDWebImageImageIOCoder sharedCoder],
+                                                        [FirstFrameWebPCoder sharedCoder]];
     
     [self.tableView registerClass:[TableViewCell class] forCellReuseIdentifier:TableViewCell.description];
     self.tableView.rowHeight = 120;

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		00043650AA25A9733DB8B9D6 /* libPods-WebPDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA074233FD61C5C6A5056612 /* libPods-WebPDemo.a */; };
 		4AA8AB2220036B9D00D37AF5 /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AA8AB2120036B9D00D37AF5 /* TableViewCell.m */; };
+		4AA8AB252003716500D37AF5 /* FirstFrameWebPCoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AA8AB242003716500D37AF5 /* FirstFrameWebPCoder.m */; };
 		4AD7CA411FF93B79005A0B50 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AD7CA401FF93B79005A0B50 /* AppDelegate.m */; };
 		4AD7CA441FF93B79005A0B50 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AD7CA431FF93B79005A0B50 /* TableViewController.m */; };
 		4AD7CA471FF93B79005A0B50 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AD7CA451FF93B79005A0B50 /* Main.storyboard */; };
@@ -20,6 +21,8 @@
 /* Begin PBXFileReference section */
 		4AA8AB2020036B9D00D37AF5 /* TableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableViewCell.h; sourceTree = "<group>"; };
 		4AA8AB2120036B9D00D37AF5 /* TableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableViewCell.m; sourceTree = "<group>"; };
+		4AA8AB232003716500D37AF5 /* FirstFrameWebPCoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstFrameWebPCoder.h; sourceTree = "<group>"; };
+		4AA8AB242003716500D37AF5 /* FirstFrameWebPCoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstFrameWebPCoder.m; sourceTree = "<group>"; };
 		4AD7CA3C1FF93B79005A0B50 /* WebPDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebPDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AD7CA3F1FF93B79005A0B50 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4AD7CA401FF93B79005A0B50 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -82,6 +85,8 @@
 				4AD7CA431FF93B79005A0B50 /* TableViewController.m */,
 				4AA8AB2020036B9D00D37AF5 /* TableViewCell.h */,
 				4AA8AB2120036B9D00D37AF5 /* TableViewCell.m */,
+				4AA8AB232003716500D37AF5 /* FirstFrameWebPCoder.h */,
+				4AA8AB242003716500D37AF5 /* FirstFrameWebPCoder.m */,
 				4AD7CA451FF93B79005A0B50 /* Main.storyboard */,
 				4AD7CA481FF93B79005A0B50 /* Assets.xcassets */,
 				4AD7CA4A1FF93B79005A0B50 /* LaunchScreen.storyboard */,
@@ -227,6 +232,7 @@
 			files = (
 				4AD7CA441FF93B79005A0B50 /* TableViewController.m in Sources */,
 				4AA8AB2220036B9D00D37AF5 /* TableViewCell.m in Sources */,
+				4AA8AB252003716500D37AF5 /* FirstFrameWebPCoder.m in Sources */,
 				4AD7CA4F1FF93B79005A0B50 /* main.m in Sources */,
 				4AD7CA411FF93B79005A0B50 /* AppDelegate.m in Sources */,
 			);
