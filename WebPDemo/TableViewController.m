@@ -14,12 +14,13 @@
 #import <SDWebImageImageIOCoder.h>
 #import <UIImageView+WebCache.h>
 #import <UIView+WebCache.h>
-#import <YYImage.h>
+#import <YYWebImage.h>
 
 typedef NS_ENUM(NSUInteger, WebPDisplayStyle) {
     WebPDisplayStyleSDWebImage,
     WebPDisplayStyleFirstFrame,
-    WebPDisplayStyleYYImage,
+    WebPDisplayStyleFirstFrameYYImage,
+    WebPDisplayStyleYYWebImage
 };
 
 @interface TableViewController ()
@@ -46,7 +47,7 @@ typedef NS_ENUM(NSUInteger, WebPDisplayStyle) {
 }
 
 - (void)changeButtonClicked:(id)sender {
-    _displayStyle = (_displayStyle + 1) % 3;
+    _displayStyle = (_displayStyle + 1) % 4;
     switch (_displayStyle) {
         case WebPDisplayStyleSDWebImage:
             [SDWebImageCodersManager sharedInstance].coders = @[[SDWebImageImageIOCoder sharedCoder],
@@ -60,15 +61,22 @@ typedef NS_ENUM(NSUInteger, WebPDisplayStyle) {
             self.title = @"FirstFrame";
             break;
             
-        default:
+        case WebPDisplayStyleFirstFrameYYImage:
             [SDWebImageCodersManager sharedInstance].coders = @[[SDWebImageImageIOCoder sharedCoder],
                                                                 [FirstFrameWebPCoder sharedCoder]];
             self.title = @"FirstFrame + YYImage";
             break;
+            
+        default:
+            self.title = @"YYWebImage";
+            break;
     }
-    [[SDWebImageManager sharedManager].imageCache clearMemory];
-    [[SDWebImageManager sharedManager].imageCache clearDiskOnCompletion:^{
-        [self.tableView reloadData];
+    [[YYWebImageManager sharedManager].cache.memoryCache removeAllObjects];
+    [[YYWebImageManager sharedManager].cache.diskCache removeAllObjectsWithBlock:^{
+        [[SDWebImageManager sharedManager].imageCache clearMemory];
+        [[SDWebImageManager sharedManager].imageCache clearDiskOnCompletion:^{
+            [self.tableView reloadData];
+        }];
     }];
 }
 
@@ -99,23 +107,38 @@ typedef NS_ENUM(NSUInteger, WebPDisplayStyle) {
             break;
     }
     NSURL *url = [NSURL URLWithString:urlStr];
-    if (_displayStyle == WebPDisplayStyleYYImage) {
-        [cell.imageView sd_cancelCurrentImageLoad];
-        [[SDWebImageManager sharedManager] loadImageWithURL:url options:0 progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
-            NSLog(@"Success with style %@, image: %@", @(_displayStyle), image);
-            if ([image isKindOfClass:[YYImage class]]) {
-                cell.imageView.image = image;
-            } else if (data) {
-                YYImage *yyimage = [YYImage imageWithData:data];
-                cell.imageView.image = yyimage;
-                NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:url];
-                [[SDWebImageManager sharedManager].imageCache storeImage:yyimage forKey:key toDisk:NO completion:nil];
-            }
-        }];
-    } else {
-        [cell.imageView sd_setImageWithURL:url completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-            NSLog(@"Success with style %@, image: %@", @(_displayStyle), image);
-        }];
+    switch (_displayStyle) {
+        case WebPDisplayStyleSDWebImage:
+        case WebPDisplayStyleFirstFrame: {
+            [cell.imageView yy_cancelCurrentImageRequest];
+            [cell.imageView sd_setImageWithURL:url completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                NSLog(@"Success with style %@, image: %@", @(_displayStyle), image);
+            }];
+            break;
+        }
+        case WebPDisplayStyleFirstFrameYYImage: {
+            [cell.imageView yy_cancelCurrentImageRequest];
+            [cell.imageView sd_cancelCurrentImageLoad];
+            [[SDWebImageManager sharedManager] loadImageWithURL:url options:0 progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
+                NSLog(@"Success with style %@, image: %@", @(_displayStyle), image);
+                if ([image isKindOfClass:[YYImage class]]) {
+                    cell.imageView.image = image;
+                } else if (data) {
+                    YYImage *yyimage = [YYImage imageWithData:data];
+                    cell.imageView.image = yyimage;
+                    NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:url];
+                    [[SDWebImageManager sharedManager].imageCache storeImage:yyimage forKey:key toDisk:NO completion:nil];
+                }
+            }];
+            break;
+        }
+        default: {
+            [cell.imageView sd_cancelCurrentImageLoad];
+            [cell.imageView yy_setImageWithURL:url placeholder:nil options:0 completion:^(UIImage * _Nullable image, NSURL * _Nonnull url, YYWebImageFromType from, YYWebImageStage stage, NSError * _Nullable error) {
+                NSLog(@"Success with style %@, image: %@", @(_displayStyle), image);
+            }];
+            break;
+        }
     }
     return cell;
 }
