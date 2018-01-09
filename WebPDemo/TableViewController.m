@@ -9,6 +9,7 @@
 #import "TableViewController.h"
 #import "TableViewCell.h"
 #import "FirstFrameWebPCoder.h"
+#import "ImageDownloaderOperation.h"
 
 #import <SDWebImageCodersManager.h>
 #import <SDWebImageImageIOCoder.h>
@@ -33,6 +34,8 @@ typedef NS_ENUM(NSUInteger, WebPDisplayStyle) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [[SDWebImageManager sharedManager].imageDownloader setOperationClass:[ImageDownloaderOperation class]];
     
     self.title = @"SDWebImage";
     
