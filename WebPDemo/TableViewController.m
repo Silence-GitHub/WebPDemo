@@ -98,19 +98,19 @@ typedef NS_ENUM(NSUInteger, WebPDisplayStyle) {
     NSString *urlStr;
     switch (indexPath.row % 4) {
         case 0:
-            urlStr = @"https://res.cloudinary.com/demo/image/upload/fl_awebp/bored_animation.webp";
+            urlStr = @"https://github.com/Silence-GitHub/WebPDemo/blob/master/Test_images/WebP_animation_1.webp?raw=true";
             break;
             
         case 1:
-            urlStr = @"https://isparta.github.io/compare-webp/image/gif_webp/webp/1.webp";
+            urlStr = @"https://github.com/Silence-GitHub/WebPDemo/blob/master/Test_images/WebP_animation_2.webp?raw=true";
             break;
             
         case 2:
-            urlStr = @"https://isparta.github.io/compare-webp/image/gif_webp/webp/2.webp";
+            urlStr = @"https://github.com/Silence-GitHub/WebPDemo/blob/master/Test_images/WebP_animation_3.webp?raw=true";
             break;
             
         default:
-            urlStr = @"http://www.etherdream.com/WebP/Test.webp";
+            urlStr = @"https://github.com/Silence-GitHub/WebPDemo/blob/master/Test_images/WebP_static_1.webp?raw=true";
             break;
     }
     NSURL *url = [NSURL URLWithString:urlStr];
