@@ -119,7 +119,7 @@ typedef NS_ENUM(NSUInteger, WebPDisplayStyle) {
         case WebPDisplayStyleFirstFrame: {
             [cell.imageView yy_cancelCurrentImageRequest];
             [cell.imageView sd_setImageWithURL:url completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-                NSLog(@"Success with style %@, image: %@", @(_displayStyle), image);
+                NSLog(@"Complete with style %@, image: %@, error: %@", @(_displayStyle), image, error);
             }];
             break;
         }
@@ -128,7 +128,7 @@ typedef NS_ENUM(NSUInteger, WebPDisplayStyle) {
             [cell.imageView sd_cancelCurrentImageLoad];
             cell.imageView.image = nil;
             [[SDWebImageManager sharedManager] loadImageWithURL:url options:0 progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
-                NSLog(@"Success with style %@, image: %@", @(_displayStyle), image);
+                NSLog(@"Complete with style %@, image: %@, error: %@", @(_displayStyle), image, error);
                 if ([image isKindOfClass:[YYImage class]]) {
                     cell.imageView.image = image;
                 } else if (data) {
@@ -143,7 +143,7 @@ typedef NS_ENUM(NSUInteger, WebPDisplayStyle) {
         default: {
             [cell.imageView sd_cancelCurrentImageLoad];
             [cell.imageView yy_setImageWithURL:url placeholder:nil options:0 completion:^(UIImage * _Nullable image, NSURL * _Nonnull url, YYWebImageFromType from, YYWebImageStage stage, NSError * _Nullable error) {
-                NSLog(@"Success with style %@, image: %@", @(_displayStyle), image);
+                NSLog(@"Complete with style %@, image: %@, error: %@", @(_displayStyle), image, error);
             }];
             break;
         }
