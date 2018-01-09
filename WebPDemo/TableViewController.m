@@ -36,6 +36,7 @@ typedef NS_ENUM(NSUInteger, WebPDisplayStyle) {
     
     self.title = @"SDWebImage";
     
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Clear" style:UIBarButtonItemStylePlain target:self action:@selector(clearButtonClicked:)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Change" style:UIBarButtonItemStylePlain target:self action:@selector(changeButtonClicked:)];
     
     [self.tableView registerClass:[TableViewCell class] forCellReuseIdentifier:TableViewCell.description];
@@ -44,6 +45,16 @@ typedef NS_ENUM(NSUInteger, WebPDisplayStyle) {
     self.tableView.estimatedSectionHeaderHeight = 0;
     self.tableView.estimatedSectionFooterHeight = 0;
     [self.tableView reloadData];
+}
+
+- (void)clearButtonClicked:(id)sender {
+    [[YYWebImageManager sharedManager].cache.memoryCache removeAllObjects];
+    [[YYWebImageManager sharedManager].cache.diskCache removeAllObjectsWithBlock:^{
+        [[SDWebImageManager sharedManager].imageCache clearMemory];
+        [[SDWebImageManager sharedManager].imageCache clearDiskOnCompletion:^{
+            [self.tableView reloadData];
+        }];
+    }];
 }
 
 - (void)changeButtonClicked:(id)sender {
@@ -72,12 +83,8 @@ typedef NS_ENUM(NSUInteger, WebPDisplayStyle) {
             break;
     }
     [[YYWebImageManager sharedManager].cache.memoryCache removeAllObjects];
-    [[YYWebImageManager sharedManager].cache.diskCache removeAllObjectsWithBlock:^{
-        [[SDWebImageManager sharedManager].imageCache clearMemory];
-        [[SDWebImageManager sharedManager].imageCache clearDiskOnCompletion:^{
-            [self.tableView reloadData];
-        }];
-    }];
+    [[SDWebImageManager sharedManager].imageCache clearMemory];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -119,6 +126,7 @@ typedef NS_ENUM(NSUInteger, WebPDisplayStyle) {
         case WebPDisplayStyleFirstFrameYYImage: {
             [cell.imageView yy_cancelCurrentImageRequest];
             [cell.imageView sd_cancelCurrentImageLoad];
+            cell.imageView.image = nil;
             [[SDWebImageManager sharedManager] loadImageWithURL:url options:0 progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
                 NSLog(@"Success with style %@, image: %@", @(_displayStyle), image);
                 if ([image isKindOfClass:[YYImage class]]) {
