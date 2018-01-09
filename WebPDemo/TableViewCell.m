@@ -8,6 +8,8 @@
 
 #import "TableViewCell.h"
 
+#import <YYImage.h>
+
 @implementation TableViewCell {
     UIImageView *_imageView;
 }
@@ -19,7 +21,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        _imageView = [[UIImageView alloc] init];
+        _imageView = [[YYAnimatedImageView alloc] init];
         _imageView.frame = CGRectMake((UIScreen.mainScreen.bounds.size.width - 100) / 2, 10, 100, 100);
         _imageView.contentMode = UIViewContentModeScaleAspectFill;
         _imageView.clipsToBounds = YES;
